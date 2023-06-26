@@ -2,6 +2,8 @@
 
 You will be creating an android application from scratch (your very own pokedex)
 
+![Drag Racing](https://cdn.dribbble.com/users/1171520/screenshots/6540871/pokedex2.png)
+
 
 ## The Goal
 
