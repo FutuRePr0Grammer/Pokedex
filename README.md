@@ -2,7 +2,7 @@
 
 You will be creating an android application from scratch (your very own pokedex)
 
-![Drag Racing](https://cdn.dribbble.com/users/1171520/screenshots/6540871/pokedex2.png)
+![POKEMANS](https://cdn.dribbble.com/users/1171520/screenshots/6540871/pokedex2.png)
 
 
 ## The Goal
@@ -24,7 +24,9 @@ You will be creating an android application from scratch (your very own pokedex)
 - Create Pokemon Details in MVVM Architecture with Compose + ViewModel()
 
 
-### Url Resources
+### Resources
+- API DOCUMENTATION
+   - https://pokeapi.co/
 - get all Pokemon
    - https://pokeapi.co/api/v2/
 - get pokemon Detail
