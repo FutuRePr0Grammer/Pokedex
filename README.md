@@ -17,11 +17,11 @@ You will be creating an android application from scratch (your very own pokedex)
 
 
 #### Stories 
-- Create A New Android Project
-- Add Libraries 
-- Set Up Dependency Injection with Dagger 2 and Setup Retrofit
-- Create Pokedex Screen in MVVM Architecture with Compose + ViewModel()
-- Create Pokemon Details in MVVM Architecture with Compose + ViewModel()
+- [Create A New Android Project](https://gitlab.com/saxal28/panera-pokedex-android/-/issues/1)
+- [Add Libraries](https://gitlab.com/saxal28/panera-pokedex-android/-/issues/2)
+- [Set Up Dependency Injection with Dagger 2 and Setup Retrofit](https://gitlab.com/saxal28/panera-pokedex-android/-/issues/3)
+- [Create Pokedex Screen in MVVM Architecture with Compose + ViewModel()](https://gitlab.com/saxal28/panera-pokedex-android/-/issues/4)
+- [Create Pokemon Details in MVVM Architecture with Compose + ViewModel()](https://gitlab.com/saxal28/panera-pokedex-android/-/issues/5)
 
 
 ### Resources
