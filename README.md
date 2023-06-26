@@ -24,6 +24,14 @@ You will be creating an android application from scratch (your very own pokedex)
 - Create Pokemon Details in MVVM Architecture with Compose + ViewModel()
 
 
+### Url Resources
+- get all Pokemon
+   - https://pokeapi.co/api/v2/
+- get pokemon Detail
+   - https://pokeapi.co/api/v2/{id}
+   - https://pokeapi.co/api/v2/{pokemonname_lowercase}
+
+
 ## Required Libraries
 
 I'm specifying the libraries to use so that you can carry this over to the Panera Android App
