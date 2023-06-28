@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
         }
 
         val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         //val httpClient = OkHttpClient.Builder()
 
