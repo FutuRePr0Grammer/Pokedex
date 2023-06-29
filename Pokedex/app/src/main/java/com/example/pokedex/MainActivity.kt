@@ -17,9 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,7 +57,7 @@ class MainActivity : ComponentActivity() {
                         chosenColor = fireColor
                     }
                     pokemonCardComposable("Bulbasaur", typeOne, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg", chosenColor)
-                    pokemonCardComposable("Bulbasaur", typeOne, "TESTURL", grassColor)
+                    pokemonCardComposable("Bulbasaur", typeOne, "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", grassColor)
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if(typeOneNew[0] == "Grass"){
@@ -84,6 +89,7 @@ class MainActivity : ComponentActivity() {
     }
     @Composable
     fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, color: Color ) {
+
         Box(
             modifier = Modifier
                 .padding(
@@ -104,9 +110,17 @@ class MainActivity : ComponentActivity() {
                     Text(name)
                     Text(types[0])
                 }
-                AsyncImage(
+                /*AsyncImage(
                     model = imageUrl,
+                    //placeholder = painterResource(R.drawable.),
                     contentDescription = "Bulbasaur Image"
+                )*/
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = null
                 )
             }
         }
