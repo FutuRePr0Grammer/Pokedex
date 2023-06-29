@@ -33,31 +33,62 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+
     /*Will need:
     * name
     * type
     * sprite (front_default)*/
+
+    //TODO: figure out why retrofit ends in error even though JSON obtained (see logcat)
+
     @Inject
     lateinit var pokemonAPI: PokemonAPI
+    var apiResult: List<Pokemon>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RetrofitApplication.instance.retrofitComponent.inject(this)
+        pokemonAPI.getPokemon().enqueue(object : Callback<List<Pokemon>>{
+            override fun onResponse(call: Call<List<Pokemon>>, response: Response<List<Pokemon>>) {
+                Log.d("SUCCESS", response.body()?.toString() ?: "")
+                apiResult = response.body()
+            }
+
+            override fun onFailure(call: Call<List<Pokemon>>, t: Throwable) {
+                Log.d("ERROR", t.toString())
+            }
+
+
+        })
         setContent {
             var grassColor = Color.Green
             var fireColor = Color.Red
+            var waterColor = Color.Blue
+            var electricColor = Color.Yellow
+
+            var types: List<String> = listOf("Test")
+            //types = TODO
+
             var typeOne = listOf("Grass")
             var typeOneNew = listOf("Fire", "Grass")
+
             var chosenColor: Color
             Column() {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    if(typeOne[0] == "Grass"){
+                    if(types[0] == "Grass"){
                         chosenColor = grassColor
                     }
-                    else{
+                    else if(types[0] == "Fire"){
                         chosenColor = fireColor
                     }
+                    else if(types[0] == "Water"){
+                        chosenColor = waterColor
+                    }
+                    else{
+                        chosenColor = electricColor
+                    }
                     pokemonCardComposable("Bulbasaur", typeOne, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg", chosenColor)
-                    pokemonCardComposable("Bulbasaur", typeOne, "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", grassColor)
+                    pokemonCardComposable("Bulbasaur", typeOne, "TESTURL", chosenColor)
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if(typeOneNew[0] == "Grass"){
@@ -69,11 +100,12 @@ class MainActivity : ComponentActivity() {
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                 }
+                Text(apiResult.toString())
             }
         }
 
 
-        pokemonAPI.getPokemon().enqueue(object : Callback<List<Pokemon>>{
+        /*pokemonAPI.getPokemon().enqueue(object : Callback<List<Pokemon>>{
             override fun onResponse(call: Call<List<Pokemon>>, response: Response<List<Pokemon>>) {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
             }
@@ -82,7 +114,7 @@ class MainActivity : ComponentActivity() {
                 Log.d("ERROR", t.toString())
             }
 
-        })
+        })*/
 
 
 
@@ -110,11 +142,6 @@ class MainActivity : ComponentActivity() {
                     Text(name)
                     Text(types[0])
                 }
-                /*AsyncImage(
-                    model = imageUrl,
-                    //placeholder = painterResource(R.drawable.),
-                    contentDescription = "Bulbasaur Image"
-                )*/
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(imageUrl)
