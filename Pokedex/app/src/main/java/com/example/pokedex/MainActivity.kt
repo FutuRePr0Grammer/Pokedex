@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -29,6 +30,7 @@ import coil.request.ImageRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
 
 import javax.inject.Inject
 
@@ -41,28 +43,37 @@ class MainActivity : ComponentActivity() {
 
     //TODO: figure out why retrofit ends in error even though JSON obtained (see logcat)
 
-    @Inject
-    lateinit var pokemonAPI: PokemonAPI
+    //@Inject
+    //lateinit var pokemonAPI: PokemonAPI
+
     //var apiResult: Pokemon? = null
     //var apiResult: ArrayList<Results>? = null
-    var apiResult: String? = null
+    //var apiResult: String? = null
+
+    private lateinit var viewModel: PokemonViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /*var apiResult: String
         RetrofitApplication.instance.retrofitComponent.inject(this)
         pokemonAPI.getPokemon().enqueue(object : Callback<Pokemon>{
             override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
                 apiResult = response.body()?.results.toString()
-                Log.d("APIRESULT: ", apiResult!!)
+                Log.d("APIRESULT: ", apiResult/*!!*/)
             }
 
             override fun onFailure(call: Call<Pokemon>, t: Throwable) {
                 Log.d("ERROR", t.toString())
             }
 
+        })*/
 
-        })
+        //RetrofitApplication.instance.retrofitComponent.inject(this)
+        viewModel = ViewModelProvider(this) [PokemonViewModel::class.java]
+        var apiResult = viewModel.getPokemon()
+        var apiResultTwo = viewModel.returnPokemonData()
+
         setContent {
             var grassColor = Color.Green
             var fireColor = Color.Red
@@ -103,7 +114,8 @@ class MainActivity : ComponentActivity() {
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                 }
-                apiResult?.let { Text(it) }
+                Text(apiResult.toString()/*!!*/)
+                Text(apiResultTwo.toString())
             }
         }
 

@@ -6,5 +6,5 @@ import javax.inject.Singleton
 @Component(modules = [RetrofitModule::class])
 @Singleton
 interface RetrofitComponent {
-    fun inject(mainActivity: MainActivity)
+    fun inject(pokemonViewModel: PokemonViewModel)
 }
