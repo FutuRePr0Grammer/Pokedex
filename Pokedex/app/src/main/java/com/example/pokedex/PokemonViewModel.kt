@@ -22,6 +22,8 @@ class PokemonViewModel: ViewModel() {
                 apiResult = response.body()?.results.toString()
                 Log.d("APIRESULT: ", apiResult/*!!*/)
                 pokemonData.value = response.body()!!.results
+                Log.d("VALUERESULT: ", pokemonData.value.toString())
+                setPokemonNames(pokemonData.value!!)
             }
 
             override fun onFailure(call: Call<Pokemon>, t: Throwable) {
@@ -31,7 +33,28 @@ class PokemonViewModel: ViewModel() {
         })
     }
 
+    //TODO: pokemonData is null once it leaves the scope of the enqueue retrofit call
+    //TODO: Don't pass API call, just get strings and pass them to view instead.
+        //No logic should go in View related to parsing api data.
     fun returnPokemonData(): LiveData<ArrayList<Results>> {
+        println("POKEMONDATA: " + pokemonData.value.toString())
+        println("POKEMONDATANOSTRING " + pokemonData.value)
         return pokemonData
     }
+
+    fun returnPokemonValues(): String {
+        return pokemonData.toString()
+    }
+
+    private lateinit var pokemonNames: ArrayList<Results>
+    fun setPokemonNames(pokemonData: ArrayList<Results>) {
+        pokemonNames = pokemonData
+    }
+
+    fun getPokemonNames(): ArrayList<Results> {
+        return pokemonNames
+    }
 }
+
+
+

@@ -71,8 +71,11 @@ class MainActivity : ComponentActivity() {
 
         //RetrofitApplication.instance.retrofitComponent.inject(this)
         viewModel = ViewModelProvider(this) [PokemonViewModel::class.java]
-        var apiResult = viewModel.getPokemon()
-        var apiResultTwo = viewModel.returnPokemonData()
+        var apiResult = viewModel.getPokemon()//.toString()
+        println("APIRESULT: " + apiResult)
+        var apiResultTwo = viewModel.returnPokemonData().value
+        var apiResultThree = viewModel.returnPokemonValues()
+        var apiResultTEST = viewModel.getPokemonNames()
 
         setContent {
             var grassColor = Color.Green
@@ -116,6 +119,8 @@ class MainActivity : ComponentActivity() {
                 }
                 Text(apiResult.toString()/*!!*/)
                 Text(apiResultTwo.toString())
+                Text(apiResultThree)
+                Text(apiResultTEST.toString())
             }
         }
 
