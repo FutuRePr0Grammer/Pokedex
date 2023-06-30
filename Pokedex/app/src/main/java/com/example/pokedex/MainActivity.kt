@@ -72,10 +72,12 @@ class MainActivity : ComponentActivity() {
         //RetrofitApplication.instance.retrofitComponent.inject(this)
         viewModel = ViewModelProvider(this) [PokemonViewModel::class.java]
         var apiResult = viewModel.getPokemon()//.toString()
+        println("TESTTESTTESTTEST" + viewModel.pokemonAPI.getPokemon().request().body.toString())
         println("APIRESULT: " + apiResult)
         var apiResultTwo = viewModel.returnPokemonData().value
         var apiResultThree = viewModel.returnPokemonValues()
         var apiResultTEST = viewModel.getPokemonNames()
+        println("API RESULT WHEN GETPOKEMONNAMES CALLED: {$apiResultTEST}")
 
         setContent {
             var grassColor = Color.Green

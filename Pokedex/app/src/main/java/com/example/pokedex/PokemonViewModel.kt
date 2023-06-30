@@ -21,7 +21,9 @@ class PokemonViewModel: ViewModel() {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
                 apiResult = response.body()?.results.toString()
                 Log.d("APIRESULT: ", apiResult/*!!*/)
+                //TODO: need postValue instead?
                 pokemonData.value = response.body()!!.results
+                //pokemonData.postValue(response.body()!!.results)
                 Log.d("VALUERESULT: ", pokemonData.value.toString())
                 setPokemonNames(pokemonData.value!!)
             }
@@ -36,6 +38,8 @@ class PokemonViewModel: ViewModel() {
     //TODO: pokemonData is null once it leaves the scope of the enqueue retrofit call
     //TODO: Don't pass API call, just get strings and pass them to view instead.
         //No logic should go in View related to parsing api data.
+    //TODO: the reason it is null is because it is being called before the data is retrieved from API
+    //TODO: must use callbacks to get data
     fun returnPokemonData(): LiveData<ArrayList<Results>> {
         println("POKEMONDATA: " + pokemonData.value.toString())
         println("POKEMONDATANOSTRING " + pokemonData.value)
@@ -48,10 +52,13 @@ class PokemonViewModel: ViewModel() {
 
     private var pokemonNames: ArrayList<Results>? = null
     fun setPokemonNames(pokemonData: ArrayList<Results>) {
+        println("POKEMONDATAVALUE: " + pokemonData)
         pokemonNames = pokemonData
+        println("POKEMON Names Value after SET: " + pokemonNames)
     }
 
     fun getPokemonNames(): ArrayList<Results>? {
+        println("POKEMONNAMESVALUE: " + pokemonNames)
         return pokemonNames
     }
 }
