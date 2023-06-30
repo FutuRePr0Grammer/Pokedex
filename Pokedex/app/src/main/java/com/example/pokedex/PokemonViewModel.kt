@@ -46,12 +46,12 @@ class PokemonViewModel: ViewModel() {
         return pokemonData.toString()
     }
 
-    private lateinit var pokemonNames: ArrayList<Results>
+    private var pokemonNames: ArrayList<Results>? = null
     fun setPokemonNames(pokemonData: ArrayList<Results>) {
         pokemonNames = pokemonData
     }
 
-    fun getPokemonNames(): ArrayList<Results> {
+    fun getPokemonNames(): ArrayList<Results>? {
         return pokemonNames
     }
 }
