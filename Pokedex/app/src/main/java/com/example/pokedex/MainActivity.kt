@@ -43,18 +43,21 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var pokemonAPI: PokemonAPI
-    var apiResult: List<Pokemon>? = null
+    //var apiResult: Pokemon? = null
+    //var apiResult: ArrayList<Results>? = null
+    var apiResult: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RetrofitApplication.instance.retrofitComponent.inject(this)
-        pokemonAPI.getPokemon().enqueue(object : Callback<List<Pokemon>>{
-            override fun onResponse(call: Call<List<Pokemon>>, response: Response<List<Pokemon>>) {
+        pokemonAPI.getPokemon().enqueue(object : Callback<Pokemon>{
+            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
-                apiResult = response.body()
+                apiResult = response.body()?.results.toString()
+                Log.d("APIRESULT: ", apiResult!!)
             }
 
-            override fun onFailure(call: Call<List<Pokemon>>, t: Throwable) {
+            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
                 Log.d("ERROR", t.toString())
             }
 
@@ -100,7 +103,7 @@ class MainActivity : ComponentActivity() {
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                 }
-                Text(apiResult.toString())
+                apiResult?.let { Text(it) }
             }
         }
 
