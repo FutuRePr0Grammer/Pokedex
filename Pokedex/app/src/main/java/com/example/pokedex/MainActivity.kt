@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -41,43 +42,13 @@ class MainActivity : ComponentActivity() {
     * type
     * sprite (front_default)*/
 
-    //TODO: figure out why retrofit ends in error even though JSON obtained (see logcat)
 
-    //@Inject
-    //lateinit var pokemonAPI: PokemonAPI
+    private val viewModel: PokemonViewModel by viewModels()
 
-    //var apiResult: Pokemon? = null
-    //var apiResult: ArrayList<Results>? = null
-    //var apiResult: String? = null
-
-    private lateinit var viewModel: PokemonViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*var apiResult: String
-        RetrofitApplication.instance.retrofitComponent.inject(this)
-        pokemonAPI.getPokemon().enqueue(object : Callback<Pokemon>{
-            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
-                Log.d("SUCCESS", response.body()?.toString() ?: "")
-                apiResult = response.body()?.results.toString()
-                Log.d("APIRESULT: ", apiResult/*!!*/)
-            }
 
-            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
-                Log.d("ERROR", t.toString())
-            }
-
-        })*/
-
-        //RetrofitApplication.instance.retrofitComponent.inject(this)
-        viewModel = ViewModelProvider(this) [PokemonViewModel::class.java]
-        var apiResult = viewModel.getPokemon()//.toString()
-        println("TESTTESTTESTTEST" + viewModel.pokemonAPI.getPokemon().request().body.toString())
-        println("APIRESULT: " + apiResult)
-        var apiResultTwo = viewModel.returnPokemonData().value
-        var apiResultThree = viewModel.returnPokemonValues()
-        var apiResultTEST = viewModel.getPokemonNames()
-        println("API RESULT WHEN GETPOKEMONNAMES CALLED: {$apiResultTEST}")
 
         setContent {
             var grassColor = Color.Green
@@ -119,10 +90,9 @@ class MainActivity : ComponentActivity() {
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                     pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
                 }
-                Text(apiResult.toString()/*!!*/)
-                Text(apiResultTwo.toString())
-                Text(apiResultThree)
-                Text(apiResultTEST.toString())
+                viewModel.viewState.pokemonNames.forEach {pokemon ->
+                    Text(text = pokemon)
+                }
             }
         }
 
