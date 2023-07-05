@@ -80,45 +80,13 @@ class MainActivity : ComponentActivity() {
                 chosenColor = electricColor
             }
 
-            /*Column() {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if(types[0] == "Grass"){
-                        chosenColor = grassColor
-                    }
-                    else if(types[0] == "Fire"){
-                        chosenColor = fireColor
-                    }
-                    else if(types[0] == "Water"){
-                        chosenColor = waterColor
-                    }
-                    else{
-                        chosenColor = electricColor
-                    }
-                    pokemonCardComposable("Bulbasaur", typeOne, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg", chosenColor)
-                    pokemonCardComposable("Bulbasaur", typeOne, "TESTURL", chosenColor)
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if(typeOneNew[0] == "Grass"){
-                        chosenColor = grassColor
-                    }
-                    else{
-                        chosenColor = fireColor
-                    }
-                    pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
-                    pokemonCardComposable("Bulbasaur", typeOneNew, "TESTURL", chosenColor)
-                }
-                viewModel.viewState.pokemonNames.forEach {pokemon ->
-                    Text(text = pokemon)
-                }
-            }*/
-
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2)
             ) {
-                viewModel.viewState.pokemonNames.forEach { pokemon ->
+                viewModel.viewState.pokemonNames.forEach { pokemonName ->
                     item {
                         pokemonCardComposable(
-                            name = pokemon,
+                            name = pokemonName,
                             types = typeOne,
                             imageUrl = "TEST",
                             color = chosenColor
