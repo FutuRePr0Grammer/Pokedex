@@ -80,6 +80,9 @@ class MainActivity : ComponentActivity() {
                 chosenColor = electricColor
             }
 
+            //TODO: Prints out of order, random order each time based on what completes first (for images)
+            //TODO: can't print all three points of data (types, name and image) at once?
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2)
             ) {
@@ -98,6 +101,25 @@ class MainActivity : ComponentActivity() {
                     //pokemonNameList.add(pokemonName)
                 }
             }
+
+            /*LazyVerticalGrid(
+                columns = GridCells.Fixed(2)
+            ) {
+                viewModel.viewState.pokemonImageUrls.forEach { pokemonImageUrl ->
+                    item {
+                        pokemonCardComposable(
+                            name = "TEST",
+                            //types = viewModel.viewState.pokemonTypes,
+                            types = types,
+                            imageUrl = pokemonImageUrl,
+                            //imageUrl = viewModel.viewState.pokemonImageUrls[increment],
+                            color = chosenColor
+                        )
+                    }
+                    //increment++
+                    //pokemonNameList.add(pokemonName)
+                }
+            }*/
         }
     }
     @Composable
