@@ -47,7 +47,7 @@ class PokemonViewModel: ViewModel() {
 
     private fun getPokemonDetails(){
         var pokemonImages: ArrayList<String> = arrayListOf()
-        for (increment in 1..21){
+        for (increment in 1..20){
             pokemonAPI.getPokemonDetails(increment.toString()).enqueue(object : Callback<PokemonDetails> {
                 override fun onResponse(call: Call<PokemonDetails>, response: Response<PokemonDetails>) {
                     Log.d("SUCCESS", response.body()?.toString() ?: "")

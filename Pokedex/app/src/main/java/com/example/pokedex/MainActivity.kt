@@ -59,11 +59,11 @@ class MainActivity : ComponentActivity() {
             var waterColor = Color.Blue
             var electricColor = Color.Yellow
 
-            var types: List<String> = listOf("Test")
-            //types = TODO
+            //var increment = 0
+            //var pokemonNameList: ArrayList<String> = arrayListOf()
 
-            var typeOne = listOf("Grass")
-            var typeOneNew = listOf("Fire", "Grass")
+            var types: List<String> = listOf("grass")
+            //types = TODO
 
             var chosenColor: Color
 
@@ -88,15 +88,16 @@ class MainActivity : ComponentActivity() {
                         pokemonCardComposable(
                             name = pokemonName,
                             //types = viewModel.viewState.pokemonTypes,
-                            types = listOf("TEST", "TEST"),
+                            types = types,
                             imageUrl = "TEST",
-                            //imageUrl = viewModel.viewState.pokemonImageUrls[0],
+                            //imageUrl = viewModel.viewState.pokemonImageUrls[increment],
                             color = chosenColor
                         )
                     }
+                    //increment++
+                    //pokemonNameList.add(pokemonName)
                 }
             }
-
         }
     }
     @Composable
@@ -138,6 +139,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("Grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
+        pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
     }
 }
