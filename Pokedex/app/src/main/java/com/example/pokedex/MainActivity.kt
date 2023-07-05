@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import coil.ImageLoader
 import coil.compose.AsyncImage
@@ -63,7 +66,21 @@ class MainActivity : ComponentActivity() {
             var typeOneNew = listOf("Fire", "Grass")
 
             var chosenColor: Color
-            Column() {
+
+            if(types[0] == "Grass"){
+                chosenColor = grassColor
+            }
+            else if(types[0] == "Fire"){
+                chosenColor = fireColor
+            }
+            else if(types[0] == "Water"){
+                chosenColor = waterColor
+            }
+            else{
+                chosenColor = electricColor
+            }
+
+            /*Column() {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if(types[0] == "Grass"){
                         chosenColor = grassColor
@@ -93,23 +110,24 @@ class MainActivity : ComponentActivity() {
                 viewModel.viewState.pokemonNames.forEach {pokemon ->
                     Text(text = pokemon)
                 }
+            }*/
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2)
+            ) {
+                viewModel.viewState.pokemonNames.forEach { pokemon ->
+                    item {
+                        pokemonCardComposable(
+                            name = pokemon,
+                            types = typeOne,
+                            imageUrl = "TEST",
+                            color = chosenColor
+                        )
+                    }
+                }
             }
+
         }
-
-
-        /*pokemonAPI.getPokemon().enqueue(object : Callback<List<Pokemon>>{
-            override fun onResponse(call: Call<List<Pokemon>>, response: Response<List<Pokemon>>) {
-                Log.d("SUCCESS", response.body()?.toString() ?: "")
-            }
-
-            override fun onFailure(call: Call<List<Pokemon>>, t: Throwable) {
-                Log.d("ERROR", t.toString())
-            }
-
-        })*/
-
-
-
     }
     @Composable
     fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, color: Color ) {
