@@ -15,7 +15,7 @@ import javax.inject.Inject
 data class ViewState(
     val pokemonNames: List<String> = listOf(),
     val pokemonTypes: List<String> = listOf(),
-    val pokemonImageUrls: ArrayList<String> = arrayListOf()
+    val pokemonImageUrls: List<String> = listOf()
 )
 
 class PokemonViewModel: ViewModel() {
@@ -52,8 +52,10 @@ class PokemonViewModel: ViewModel() {
                 override fun onResponse(call: Call<PokemonDetails>, response: Response<PokemonDetails>) {
                     Log.d("SUCCESS", response.body()?.toString() ?: "")
                     viewState = viewState.copy(pokemonTypes = response.body()?.types!!.map { it.type.name ?: "" })
-                    pokemonImages.add(response.body()?.sprites!!.front_default)
-                    viewState = viewState.copy(pokemonImageUrls = pokemonImages)
+                    /*pokemonImages.add(response.body()?.sprites!!.front_default)
+                    viewState = viewState.copy(pokemonImageUrls = pokemonImages)*/
+                    //TODO: below is needed, but Sprites can't use .map
+                    viewState = viewState.copy(pokemonImageUrls = response.body()?.sprites!!.map {it.front_default ?: ""})
                     Log.d("Types", viewState.pokemonTypes.toString())
                     Log.d("Images", viewState.pokemonImageUrls.toString())
                 }

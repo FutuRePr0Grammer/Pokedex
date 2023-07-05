@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                 chosenColor = electricColor
             }
 
-            //TODO: Prints out of order, random order each time based on what completes first (for images)
+            //TODO: use .map to print and store in order, but Sprite can't use map? Not list, but why?
             //TODO: can't print all three points of data (types, name and image) at once?
 
             LazyVerticalGrid(
@@ -90,8 +90,9 @@ class MainActivity : ComponentActivity() {
                     item {
                         pokemonCardComposable(
                             name = pokemonName,
-                            //types = viewModel.viewState.pokemonTypes,
-                            types = types,
+                            //TODO: types prints, but only the last type stored in the variable (keeps overwriting)
+                            types = viewModel.viewState.pokemonTypes,
+                            //types = types,
                             imageUrl = "TEST",
                             //imageUrl = viewModel.viewState.pokemonImageUrls[increment],
                             color = chosenColor
@@ -102,7 +103,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            //TODO: comment above out and add below code to see issue with images printing out of order
             /*LazyVerticalGrid(
                 columns = GridCells.Fixed(2)
             ) {
@@ -144,7 +144,7 @@ class MainActivity : ComponentActivity() {
 
                 Column {
                     Text(name)
-                    Text(types[0])
+                    Text(types.toString())
                 }
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
