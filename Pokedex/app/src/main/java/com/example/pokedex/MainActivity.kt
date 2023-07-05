@@ -67,13 +67,13 @@ class MainActivity : ComponentActivity() {
 
             var chosenColor: Color
 
-            if(types[0] == "Grass"){
+            if(types[0] == "grass"){
                 chosenColor = grassColor
             }
-            else if(types[0] == "Fire"){
+            else if(types[0] == "fire"){
                 chosenColor = fireColor
             }
-            else if(types[0] == "Water"){
+            else if(types[0] == "water"){
                 chosenColor = waterColor
             }
             else{
@@ -87,8 +87,10 @@ class MainActivity : ComponentActivity() {
                     item {
                         pokemonCardComposable(
                             name = pokemonName,
-                            types = typeOne,
+                            //types = viewModel.viewState.pokemonTypes,
+                            types = listOf("TEST", "TEST"),
                             imageUrl = "TEST",
+                            //imageUrl = viewModel.viewState.pokemonImageUrls[0],
                             color = chosenColor
                         )
                     }
