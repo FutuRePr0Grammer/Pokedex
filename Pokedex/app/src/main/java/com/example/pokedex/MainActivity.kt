@@ -102,6 +102,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
+            //TODO: comment above out and add below code to see issue with images printing out of order
             /*LazyVerticalGrid(
                 columns = GridCells.Fixed(2)
             ) {
