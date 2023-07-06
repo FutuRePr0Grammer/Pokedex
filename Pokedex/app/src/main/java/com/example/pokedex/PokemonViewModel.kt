@@ -21,7 +21,8 @@ data class ViewState(
 data class PokemonDetail(
     val name: String,
     val type: List<String>,
-    val image: String
+    val image: String,
+    var selectedColor: Color
 )
 
 class PokemonViewModel: ViewModel() {
@@ -74,7 +75,8 @@ class PokemonViewModel: ViewModel() {
                 val data = PokemonDetail(
                     name = response.body()?.name ?: "",
                     type = response.body()?.types?.map {it.type.name} ?: listOf(),
-                    image = response.body()?.sprites?.front_default ?: ""
+                    image = response.body()?.sprites?.front_default ?: "",
+                    selectedColor = Color.Black
 
                 )
 
@@ -85,9 +87,29 @@ class PokemonViewModel: ViewModel() {
 
                 Log.d("TYPE: ", data.type.toString())
 
-                /*if(data.type[0] == "grass"){
-                    selectedColor = Color.Green
-                }*/
+                pokemon.forEach {pokemon ->
+                    if(pokemon.type[0] == "grass"){
+                        pokemon.selectedColor = grassColor
+                    }
+                    else if(pokemon.type[0] == "fire"){
+                        pokemon.selectedColor = fireColor
+                    }
+                    else if(pokemon.type[0] == "poison"){
+                        pokemon.selectedColor = poisonColor
+                    }
+                    else if(pokemon.type[0] == "water"){
+                        pokemon.selectedColor = waterColor
+                    }
+                    else if(pokemon.type[0] == "electric"){
+                        pokemon.selectedColor = electricColor
+                    }
+                    else if(pokemon.type[0] == "bug"){
+                        pokemon.selectedColor = bugColor
+                    }
+                    else{
+                        pokemon.selectedColor = normalColor
+                    }
+                }
             }
 
             override fun onFailure(call: Call<PokemonDetails>, t: Throwable) {

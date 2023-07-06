@@ -39,65 +39,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var selectedColor: Color
-
-
         setContent {
-            /*var grassColor = Color.Green
-            var fireColor = Color.Red
-            var waterColor = Color.Blue
-            var electricColor = Color.Yellow
-
-
-            var types: List<String> = listOf("grass")
-
-            var chosenColor: Color
-
-            if(types[0] == "grass"){
-                chosenColor = grassColor
-            }
-            else if(types[0] == "fire"){
-                chosenColor = fireColor
-            }
-            else if(types[0] == "water"){
-                chosenColor = waterColor
-            }
-            else{
-                chosenColor = electricColor
-            }*/
-
-
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2)
             ) {
                 viewModel.pokemon.forEach { pokemon ->
-                    if(pokemon.type[0] == "grass"){
-                        selectedColor = viewModel.grassColor
-                    }
-                    else if(pokemon.type[0] == "fire"){
-                        selectedColor = viewModel.fireColor
-                    }
-                    else if(pokemon.type[0] == "poison"){
-                        selectedColor = viewModel.poisonColor
-                    }
-                    else if(pokemon.type[0] == "water"){
-                        selectedColor = viewModel.waterColor
-                    }
-                    else if(pokemon.type[0] == "electric"){
-                        selectedColor = viewModel.electricColor
-                    }
-                    else if(pokemon.type[0] == "bug"){
-                        selectedColor = viewModel.bugColor
-                    }
-                    else{
-                        selectedColor = viewModel.normalColor
-                    }
                     item {
                         pokemonCardComposable(
                             name = pokemon.name,
                             types = pokemon.type,
                             imageUrl = pokemon.image,
-                            color = selectedColor
+                            color = pokemon.selectedColor
                         )
                     }
 
