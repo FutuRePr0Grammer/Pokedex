@@ -4,12 +4,11 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Locale
 import javax.inject.Inject
 
 data class ViewState(
@@ -18,17 +17,21 @@ data class ViewState(
     val pokemonImageUrls: List<String> = listOf()
 )
 
+data class PokemonDetail(
+    val name: String,
+    val type: List<String>,
+    val image: String
+)
+
 class PokemonViewModel: ViewModel() {
     @Inject
     lateinit var pokemonAPI: PokemonAPI
 
-    var pokemonTypesList: ArrayList<List<String>> = arrayListOf()
 
     var viewState: ViewState by mutableStateOf(ViewState())
         init{
             RetrofitApplication.instance.retrofitComponent.inject(this)
             getPokemon()
-            getPokemonDetails()
         }
 
     private fun getPokemon(){
@@ -38,6 +41,9 @@ class PokemonViewModel: ViewModel() {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
                 viewState = viewState.copy(pokemonNames = response.body()?.results!!.map { it.name ?: "" })
                 //Log.d("NAMES", viewState.pokemonNames.toString())
+
+                val pokemonList = response.body()?.results ?: listOf()
+                getPokemonDetails(pokemonList)
             }
 
             override fun onFailure(call: Call<Pokemon>, t: Throwable) {
@@ -47,28 +53,36 @@ class PokemonViewModel: ViewModel() {
         })
     }
 
-    private fun getPokemonDetails(){
-        var pokemonImages: ArrayList<String> = arrayListOf()
-        for (increment in 1..20){
-            pokemonAPI.getPokemonDetails(increment.toString()).enqueue(object : Callback<PokemonDetails> {
-                override fun onResponse(call: Call<PokemonDetails>, response: Response<PokemonDetails>) {
-                    Log.d("SUCCESS", response.body()?.toString() ?: "")
-                    viewState = viewState.copy(pokemonTypes = response.body()?.types!!.map { it.type.name ?: "" })
-                    pokemonTypesList.add(viewState.pokemonTypes)
-                    pokemonImages.add(response.body()?.sprites!!.front_default)
-                    viewState = viewState.copy(pokemonImageUrls = pokemonImages)
-                    //TODO: below is needed, but Sprites can't use .map
-                    //viewState = viewState.copy(pokemonImageUrls = response.body()?.sprites!!.map {it.front_default ?: ""})
-                    Log.d("Types", viewState.pokemonTypes.toString())
-                    Log.d("Images", viewState.pokemonImageUrls.toString())
+    var pokemon: List<PokemonDetail> by mutableStateOf(listOf())
+
+    private fun getPokemonDetails(list: List<Results>){
+        list.map {
+            pokemonAPI.getPokemonDetails(it.name?.lowercase(Locale.ROOT) ?: "").enqueue(object : Callback<PokemonDetails> {
+            override fun onResponse(
+                call: Call<PokemonDetails>,
+                response: Response<PokemonDetails>
+            ) {
+                val data = PokemonDetail(
+                    name = response.body()?.name ?: "",
+                    type = response.body()?.types?.map {it.type.name} ?: listOf(),
+                    image = response.body()?.sprites?.front_default ?: ""
+
+                )
+
+                pokemon = mutableListOf<PokemonDetail>().apply {
+                    addAll(pokemon)
+                    add(data)
                 }
 
-                override fun onFailure(call: Call<PokemonDetails>, t: Throwable) {
-                    Log.d("ERROR", t.toString())
-                }
+            }
 
-            })
+            override fun onFailure(call: Call<PokemonDetails>, t: Throwable) {
+                Log.d("ERROR", t.toString())
+            }
+
+        })
         }
+
 
     }
 
