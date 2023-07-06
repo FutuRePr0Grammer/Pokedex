@@ -22,6 +22,8 @@ class PokemonViewModel: ViewModel() {
     @Inject
     lateinit var pokemonAPI: PokemonAPI
 
+    var pokemonTypesList: ArrayList<List<String>> = arrayListOf()
+
     var viewState: ViewState by mutableStateOf(ViewState())
         init{
             RetrofitApplication.instance.retrofitComponent.inject(this)
@@ -52,10 +54,11 @@ class PokemonViewModel: ViewModel() {
                 override fun onResponse(call: Call<PokemonDetails>, response: Response<PokemonDetails>) {
                     Log.d("SUCCESS", response.body()?.toString() ?: "")
                     viewState = viewState.copy(pokemonTypes = response.body()?.types!!.map { it.type.name ?: "" })
-                    /*pokemonImages.add(response.body()?.sprites!!.front_default)
-                    viewState = viewState.copy(pokemonImageUrls = pokemonImages)*/
+                    pokemonTypesList.add(viewState.pokemonTypes)
+                    pokemonImages.add(response.body()?.sprites!!.front_default)
+                    viewState = viewState.copy(pokemonImageUrls = pokemonImages)
                     //TODO: below is needed, but Sprites can't use .map
-                    viewState = viewState.copy(pokemonImageUrls = response.body()?.sprites!!.map {it.front_default ?: ""})
+                    //viewState = viewState.copy(pokemonImageUrls = response.body()?.sprites!!.map {it.front_default ?: ""})
                     Log.d("Types", viewState.pokemonTypes.toString())
                     Log.d("Images", viewState.pokemonImageUrls.toString())
                 }

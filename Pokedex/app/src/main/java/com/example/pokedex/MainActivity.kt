@@ -90,8 +90,9 @@ class MainActivity : ComponentActivity() {
                     item {
                         pokemonCardComposable(
                             name = pokemonName,
-                            //TODO: types prints, but only the last type stored in the variable (keeps overwriting)
-                            types = viewModel.viewState.pokemonTypes,
+                            //TODO: Can't use indices at all because arrayList empty for first few passes
+                            //types = viewModel.viewState.pokemonTypes,
+                            types = viewModel.pokemonTypesList,
                             //types = types,
                             imageUrl = "TEST",
                             //imageUrl = viewModel.viewState.pokemonImageUrls[increment],
@@ -124,7 +125,7 @@ class MainActivity : ComponentActivity() {
         }
     }
     @Composable
-    fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, color: Color ) {
+    fun pokemonCardComposable(name: String, types: ArrayList<List<String>>, imageUrl: String, color: Color ) {
 
         Box(
             modifier = Modifier
@@ -162,6 +163,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
+        //pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
     }
 }
