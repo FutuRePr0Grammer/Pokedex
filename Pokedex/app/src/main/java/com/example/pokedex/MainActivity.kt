@@ -39,9 +39,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        var selectedColor: Color
+
 
         setContent {
-            var grassColor = Color.Green
+            /*var grassColor = Color.Green
             var fireColor = Color.Red
             var waterColor = Color.Blue
             var electricColor = Color.Yellow
@@ -62,19 +64,40 @@ class MainActivity : ComponentActivity() {
             }
             else{
                 chosenColor = electricColor
-            }
+            }*/
 
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2)
             ) {
                 viewModel.pokemon.forEach { pokemon ->
+                    if(pokemon.type[0] == "grass"){
+                        selectedColor = viewModel.grassColor
+                    }
+                    else if(pokemon.type[0] == "fire"){
+                        selectedColor = viewModel.fireColor
+                    }
+                    else if(pokemon.type[0] == "poison"){
+                        selectedColor = viewModel.poisonColor
+                    }
+                    else if(pokemon.type[0] == "water"){
+                        selectedColor = viewModel.waterColor
+                    }
+                    else if(pokemon.type[0] == "electric"){
+                        selectedColor = viewModel.electricColor
+                    }
+                    else if(pokemon.type[0] == "bug"){
+                        selectedColor = viewModel.bugColor
+                    }
+                    else{
+                        selectedColor = viewModel.normalColor
+                    }
                     item {
                         pokemonCardComposable(
                             name = pokemon.name,
                             types = pokemon.type,
                             imageUrl = pokemon.image,
-                            color = chosenColor
+                            color = selectedColor
                         )
                     }
 
@@ -122,6 +145,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        //pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
+        pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
     }
 }
