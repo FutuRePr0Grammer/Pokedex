@@ -91,18 +91,21 @@ class MainActivity : ComponentActivity() {
                     Text(
                         text = name,
                         style = androidx.compose.ui.text.TextStyle(
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
                         )
                     )
-                    Text(
-                        text = types.toString(),
-                        Modifier.border(BorderStroke(2.dp, Color.LightGray)),
-                        style = androidx.compose.ui.text.TextStyle(
-                            //ff means color, 100% opacity. This is white, 80% opacity (0x80)
-                            background = Color(0x80ffffff),
-                            fontSize = 15.sp
+                    types.forEach { type ->
+                        Text(
+                            text = type,//types.toString(),
+                            //Modifier.border(BorderStroke(2.dp, Color.LightGray)),
+                            style = androidx.compose.ui.text.TextStyle(
+                                //ff means color, 100% opacity. This is white, 80% opacity (0x80)
+                                background = Color(0x80ffffff),
+                                fontSize = 17.sp
+                            )
                         )
-                    )
+                    }
                 }
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -111,7 +114,7 @@ class MainActivity : ComponentActivity() {
                         .build(),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(150.dp)
+                        .size(160.dp)
                 )
             }
         }
@@ -144,12 +147,12 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", viewModel.waterColor)
+        pokemonCardComposable("Bulbasaur", listOf("grass", "fire"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color(0xff67f041))
     }
 
     @Preview
     @Composable
     fun individualPokemonCardPreview() {
-        individualPokemonCard("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", viewModel.bugColor)
+        individualPokemonCard("Bulbasaur", listOf("grass", "water"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color(0xfff05241))
     }
 }
