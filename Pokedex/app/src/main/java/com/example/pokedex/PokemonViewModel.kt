@@ -32,13 +32,13 @@ class PokemonViewModel: ViewModel() {
     @Inject
     lateinit var pokemonAPI: PokemonAPI
 
-    var grassColor: Color = Color.Green
-    var fireColor: Color = Color.Red
-    var electricColor: Color = Color.Yellow
-    var waterColor: Color = Color.Blue
-    var poisonColor: Color = Color.Magenta
-    var bugColor: Color = Color.Gray
-    var normalColor: Color = Color.White
+    var grassColor = Color(0xff67f041)
+    var fireColor = Color(0xfff05241)
+    var electricColor = Color(0xffe7f549)
+    var waterColor = Color(0xff1caac7)
+    var poisonColor = Color(0xffdb49f5)
+    var bugColor = Color(0xff9cad57)
+    var normalColor = Color(0xffc77d0e)
 
 
     var viewState: ViewState by mutableStateOf(ViewState())

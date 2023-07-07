@@ -1,10 +1,15 @@
 package com.example.pokedex
 
+import android.graphics.fonts.FontStyle
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,12 +23,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import java.time.format.TextStyle
 
 class MainActivity : ComponentActivity() {
 
@@ -36,6 +44,7 @@ class MainActivity : ComponentActivity() {
     private val viewModel: PokemonViewModel by viewModels()
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,6 +67,7 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, color: Color ) {
 
@@ -78,15 +88,30 @@ class MainActivity : ComponentActivity() {
             ) {
 
                 Column {
-                    Text(name)
-                    Text(types.toString())
+                    Text(
+                        text = name,
+                        style = androidx.compose.ui.text.TextStyle(
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                    Text(
+                        text = types.toString(),
+                        Modifier.border(BorderStroke(2.dp, Color.LightGray)),
+                        style = androidx.compose.ui.text.TextStyle(
+                            //ff means color, 100% opacity. This is white, 80% opacity (0x80)
+                            background = Color(0x80ffffff),
+                            fontSize = 15.sp
+                        )
+                    )
                 }
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(imageUrl)
                         .decoderFactory(SvgDecoder.Factory())
                         .build(),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(150.dp)
                 )
             }
         }
@@ -115,15 +140,16 @@ class MainActivity : ComponentActivity() {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
+        pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", viewModel.waterColor)
     }
 
     @Preview
     @Composable
     fun individualPokemonCardPreview() {
-        individualPokemonCard("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Green)
+        individualPokemonCard("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", viewModel.bugColor)
     }
 }
