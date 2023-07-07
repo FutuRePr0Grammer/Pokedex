@@ -92,7 +92,8 @@ class MainActivity : ComponentActivity() {
                         text = name,
                         style = androidx.compose.ui.text.TextStyle(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            color = Color.White
                         )
                     )
                     types.forEach { type ->
@@ -102,7 +103,8 @@ class MainActivity : ComponentActivity() {
                             style = androidx.compose.ui.text.TextStyle(
                                 //ff means color, 100% opacity. This is white, 80% opacity (0x80)
                                 background = Color(0x80ffffff),
-                                fontSize = 17.sp
+                                fontSize = 17.sp,
+                                color = Color.White
                             )
                         )
                     }

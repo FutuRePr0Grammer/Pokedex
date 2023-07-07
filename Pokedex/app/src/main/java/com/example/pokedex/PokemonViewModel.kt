@@ -32,13 +32,50 @@ class PokemonViewModel: ViewModel() {
     @Inject
     lateinit var pokemonAPI: PokemonAPI
 
-    var grassColor = Color(0xff67f041)
-    var fireColor = Color(0xfff05241)
-    var electricColor = Color(0xffe7f549)
-    var waterColor = Color(0xff1caac7)
-    var poisonColor = Color(0xffdb49f5)
-    var bugColor = Color(0xff9cad57)
-    var normalColor = Color(0xffc77d0e)
+    val FIRE = Color(0xffF76351)
+    val FIRE_LIGHT = Color(0xffF3978C)
+    val WATER = Color(0xff4A90E2)
+    val WATER_LIGHT = Color(0xff6FA3E1)
+    val GRASS = Color(0xff21D380)
+    val GRASS_LIGHT = Color(0xff62E0A5)
+    val ELECTRIC = Color(0xffF7CC1A)
+    val ELECTRIC_LIGHT = Color(0xffF9D954)
+
+    val DARK = Color(0xff333333)
+    val DARK_LIGHT = Color(0xff555555)
+
+    val ROCK = Color(0xff5E3023)
+    val ROCK_LIGHT = Color(0xff7F5447)
+    val GROUND = Color(0xffC08552)
+    val GROUND_LIGHT = Color(0xffD8AC86)
+    val POISON = Color(0xff9448BC)
+    val POISON_LIGHT = Color(0xffA974C5)
+
+    val GHOST = Color(0xff4B3F72)
+    val GHOST_LIGHT = Color(0xff655698)
+    val PSYCHIC = Color(0xffDA4167)
+    val PSYCHIC_LIGHT = Color(0xffFF6F93)
+    val ICE = Color(0xff90FCF9)
+    val ICE_LIGHT = Color(0xffCFFFFE)
+
+    val STEEL = Color(0xff717C89)
+    val STEEL_LIGHT = Color(0xff909FB0)
+    val FIGHTING = Color(0xff841C26)
+    val FIGHTING_LIGHT = Color(0xff9C535A)
+    val FLYING = Color(0xff8ACDEA)
+    val FLYING_LIGHT = Color(0xffA2E1FC)
+
+    val DRAGON = Color(0xff725AC1)
+    val DRAGON_LIGHT = Color(0xff8D79D1)
+    val FAIRY = Color(0xffFF579F)
+    val FAIRY_LIGHT = Color(0xffFF7EB5)
+    val NORMAL = Color(0xff878E99)
+    val NORMAL_LIGHT = Color(0xffAFB6C1)
+    val BUG = Color(0xffBAB700)
+    val BUG_LIGHT = Color(0xffCECB12)
+
+    val UNKNOWN = Color(0xff333333)
+    val UNKOWN_LIGHT = Color(0xff555555)
 
 
     var viewState: ViewState by mutableStateOf(ViewState())
@@ -92,25 +129,25 @@ class PokemonViewModel: ViewModel() {
 
                 pokemon.forEach {pokemon ->
                     if(pokemon.type[0] == "grass"){
-                        pokemon.selectedColor = grassColor
+                        pokemon.selectedColor = GRASS_LIGHT
                     }
                     else if(pokemon.type[0] == "fire"){
-                        pokemon.selectedColor = fireColor
+                        pokemon.selectedColor = FIRE_LIGHT
                     }
                     else if(pokemon.type[0] == "poison"){
-                        pokemon.selectedColor = poisonColor
+                        pokemon.selectedColor = POISON_LIGHT
                     }
                     else if(pokemon.type[0] == "water"){
-                        pokemon.selectedColor = waterColor
+                        pokemon.selectedColor = WATER_LIGHT
                     }
                     else if(pokemon.type[0] == "electric"){
-                        pokemon.selectedColor = electricColor
+                        pokemon.selectedColor = ELECTRIC_LIGHT
                     }
                     else if(pokemon.type[0] == "bug"){
-                        pokemon.selectedColor = bugColor
+                        pokemon.selectedColor = BUG_LIGHT
                     }
                     else{
-                        pokemon.selectedColor = normalColor
+                        pokemon.selectedColor = NORMAL_LIGHT
                     }
                 }
             }
