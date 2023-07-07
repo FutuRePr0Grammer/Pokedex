@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.pokedex.network.dto.PokemonDetailResponseDto
+import com.example.pokedex.network.dto.PokemonListResponseDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,17 +48,17 @@ class PokemonViewModel: ViewModel() {
 
     private fun getPokemon(){
 
-        pokemonAPI.getPokemon().enqueue(object : Callback<Pokemon> {
-            override fun onResponse(call: Call<Pokemon>, response: Response<Pokemon>) {
+        pokemonAPI.getPokemon().enqueue(object : Callback<PokemonListResponseDto> {
+            override fun onResponse(call: Call<PokemonListResponseDto>, response: Response<PokemonListResponseDto>) {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
-                viewState = viewState.copy(pokemonNames = response.body()?.results!!.map { it.name ?: "" })
+                viewState = viewState.copy(pokemonNames = response.body()?.results!!.map { it?.name ?: "" })
                 //Log.d("NAMES", viewState.pokemonNames.toString())
 
-                val pokemonList = response.body()?.results ?: listOf()
+                val pokemonList = response.body()?.results?.mapNotNull { it } ?: listOf()
                 getPokemonDetails(pokemonList)
             }
 
-            override fun onFailure(call: Call<Pokemon>, t: Throwable) {
+            override fun onFailure(call: Call<PokemonListResponseDto>, t: Throwable) {
                 Log.d("ERROR", t.toString())
             }
 
@@ -65,17 +67,17 @@ class PokemonViewModel: ViewModel() {
 
     var pokemon: List<PokemonDetail> by mutableStateOf(listOf())
 
-    private fun getPokemonDetails(list: List<Results>){
+    private fun getPokemonDetails(list: List<PokemonListResponseDto.Result>){
         list.map {
-            pokemonAPI.getPokemonDetails(it.name?.lowercase(Locale.ROOT) ?: "").enqueue(object : Callback<PokemonDetails> {
+            pokemonAPI.getPokemonDetails(it.name?.lowercase(Locale.ROOT) ?: "").enqueue(object : Callback<PokemonDetailResponseDto> {
             override fun onResponse(
-                call: Call<PokemonDetails>,
-                response: Response<PokemonDetails>
+                call: Call<PokemonDetailResponseDto>,
+                response: Response<PokemonDetailResponseDto>
             ) {
                 val data = PokemonDetail(
                     name = response.body()?.name ?: "",
-                    type = response.body()?.types?.map {it.type.name} ?: listOf(),
-                    image = response.body()?.sprites?.front_default ?: "",
+                    type = response.body()?.types?.mapNotNull { it?.type?.name } ?: listOf(),
+                    image = response.body()?.sprites?.frontDefault ?: "",
                     selectedColor = Color.Black
 
                 )
@@ -112,7 +114,7 @@ class PokemonViewModel: ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<PokemonDetails>, t: Throwable) {
+            override fun onFailure(call: Call<PokemonDetailResponseDto>, t: Throwable) {
                 Log.d("ERROR", t.toString())
             }
 
