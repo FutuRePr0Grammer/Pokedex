@@ -92,11 +92,38 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun individualPokemonCard(name: String, types: List<String>, imageUrl: String, color: Color){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .background(color)
+                .size(150.dp)
+        ) {
+
+            Text(name)
+            Text(types.toString())
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUrl)
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = null
+            )
+        }
+    }
+
 
 
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
         pokemonCardComposable("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Red)
+    }
+
+    @Preview
+    @Composable
+    fun individualPokemonCardPreview() {
+        individualPokemonCard("Bulbasaur", listOf("grass"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color.Green)
     }
 }

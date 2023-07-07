@@ -6,6 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.pokedex.data.data.model.Pokemon
+import com.example.pokedex.data.data.model.PokemonDetails
+import com.example.pokedex.data.data.model.Results
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
