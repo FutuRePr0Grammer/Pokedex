@@ -25,6 +25,7 @@ data class PokemonDetail(
     val name: String,
     val type: List<String>,
     val image: String,
+    val pokemonId: String,
     var selectedColor: Color
 )
 
@@ -116,6 +117,7 @@ class PokemonViewModel: ViewModel() {
                     name = response.body()?.name ?: "",
                     type = response.body()?.types?.map {it.type.name} ?: listOf(),
                     image = response.body()?.sprites?.front_default ?: "",
+                    pokemonId = response.body()?.id.toString(),
                     selectedColor = Color.Black
 
                 )

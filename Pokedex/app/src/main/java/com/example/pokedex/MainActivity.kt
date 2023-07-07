@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,6 +59,7 @@ class MainActivity : ComponentActivity() {
                             name = pokemon.name,
                             types = pokemon.type,
                             imageUrl = pokemon.image,
+                            id = pokemon.pokemonId,
                             color = pokemon.selectedColor
                         )
                     }
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, color: Color ) {
+    fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, id: String, color: Color ) {
 
         Box(
             modifier = Modifier
@@ -111,12 +113,15 @@ class MainActivity : ComponentActivity() {
                 }
                 Column {
                     Text(
-                        text = "Pokemon ID #",
+                        //TODO: add condition, if Id one number, add #00, if two, #0, etc.
+                        text = id,
                         style = androidx.compose.ui.text.TextStyle(
                             //ff means color, 100% opacity. This is white, 80% opacity (0x80)
                             fontSize = 10.sp,
                             color = Color.White
-                        )
+                        ),
+                        modifier = Modifier
+                            .padding(30.dp, 0.dp, 0.dp, 0.dp)
                     )
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -159,7 +164,7 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("grass", "fire"), "TEST", Color(0xff67f041))
+        pokemonCardComposable("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
     }
 
     @Preview
