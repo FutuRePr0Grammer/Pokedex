@@ -109,15 +109,25 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(imageUrl)
-                        .decoderFactory(SvgDecoder.Factory())
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(160.dp)
-                )
+                Column {
+                    Text(
+                        text = "Pokemon ID #",
+                        style = androidx.compose.ui.text.TextStyle(
+                            //ff means color, 100% opacity. This is white, 80% opacity (0x80)
+                            fontSize = 10.sp,
+                            color = Color.White
+                        )
+                    )
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(imageUrl)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(160.dp)
+                    )
+                }
             }
         }
     }
@@ -149,12 +159,12 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("grass", "fire"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color(0xff67f041))
+        pokemonCardComposable("Bulbasaur", listOf("grass", "fire"), "TEST", Color(0xff67f041))
     }
 
     @Preview
     @Composable
     fun individualPokemonCardPreview() {
-        individualPokemonCard("Bulbasaur", listOf("grass", "water"), "https://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-x-y-version/5/51/Bulbasaur.jpg?width=325", Color(0xfff05241))
+        individualPokemonCard("Bulbasaur", listOf("grass", "water"), "TEST", Color(0xfff05241))
     }
 }
