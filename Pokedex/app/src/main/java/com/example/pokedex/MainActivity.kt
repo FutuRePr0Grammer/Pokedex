@@ -1,32 +1,26 @@
 package com.example.pokedex
 
-import android.graphics.fonts.FontStyle
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -39,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
-import java.time.format.TextStyle
 
 class MainActivity : ComponentActivity() {
 
@@ -58,20 +51,18 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2)
+                columns = GridCells.Fixed(2),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(10.dp)
             ) {
                 viewModel.pokemon.forEach { pokemon ->
-                    when(pokemon.pokemonId.length) {
-                        1 -> pokemon.pokemonId = "#00" + pokemon.pokemonId
-                        2 -> pokemon.pokemonId = "#0" + pokemon.pokemonId
-                        3 -> pokemon.pokemonId = "#" + pokemon.pokemonId
-                    }
                     item {
-                        pokemonCardComposable(
-                            name = pokemon.name,
+                        PokemonCard(
+                            name = pokemon.capitalizedName,
                             types = pokemon.type,
                             imageUrl = pokemon.image,
-                            id = pokemon.pokemonId,
+                            id = pokemon.displayId,
                             color = pokemon.selectedColor
                         )
                     }
@@ -81,105 +72,76 @@ class MainActivity : ComponentActivity() {
 
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun pokemonCardComposable(name: String, types: List<String>, imageUrl: String, id: String, color: Color ) {
+    fun PokemonCard(name: String, types: List<String>, imageUrl: String, id: String, color: Color) {
 
-        Box(
+        Column(
             modifier = Modifier
-                .padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 16.dp,
-                bottom = 8.dp
-                )
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .background(color)
+                .padding(10.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .background(color)
-                    .size(150.dp)
-            ) {
+            Text(
+                text = id,
+                color = Color.White.copy(alpha = 0.4F),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.End,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
 
-                Column {
-                    Text(
-                        text = name,
-                        style = androidx.compose.ui.text.TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            color = Color.White
-                        )
-                    )
-                    types.forEach { type ->
-                        Text(
-                            text = type,
-                            style = androidx.compose.ui.text.TextStyle(
-                                //ff means color, 100% opacity. This is white, 80% opacity (0x80)
-                                background = Color(0x80ffffff),
-                                fontSize = 17.sp,
-                                color = Color.White
+            Text(
+                text = name,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp
+            )
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+
+                Column(
+                    modifier = Modifier.weight(1F, true)
+                ) {
+
+                    Column(modifier = Modifier.padding(top = 5.dp)) {
+                        types.forEach { type ->
+                            Text(
+                                text = type,
+                                style = androidx.compose.ui.text.TextStyle(
+                                    fontSize = 10.sp,
+                                    color = Color.White,
+                                ),
+                                modifier = Modifier
+                                    .padding(bottom = 5.dp)
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(Color.White.copy(alpha = 0.4F))
+                                    .padding(8.dp, 3.dp)
                             )
-                        )
+                        }
                     }
                 }
-                Column {
-                    Text(
-                        text = id,
-                        style = androidx.compose.ui.text.TextStyle(
-                            fontSize = 10.sp,
-                            color = Color.White
-                        ),
-                        modifier = Modifier
-                            .align(alignment = End)
-                    )
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(imageUrl)
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build(),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .fillMaxSize(100f)
-                    )
-                }
+
+
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier.size(80.dp),
+                    contentScale = ContentScale.FillBounds
+                )
             }
         }
     }
-
-    @Composable
-    fun individualPokemonCard(name: String, types: List<String>, imageUrl: String, color: Color){
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(color)
-                .size(150.dp)
-        ) {
-
-            Text(name)
-            Text(types.toString())
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageUrl)
-                    .decoderFactory(SvgDecoder.Factory())
-                    .build(),
-                contentDescription = null
-            )
-        }
-    }
-
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Preview
     @Composable
     fun pokemonCardComposablePreview() {
-        pokemonCardComposable("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
-    }
-
-    @Preview
-    @Composable
-    fun individualPokemonCardPreview() {
-        individualPokemonCard("Bulbasaur", listOf("grass", "water"), "TEST", Color(0xfff05241))
+        PokemonCard("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
     }
 }

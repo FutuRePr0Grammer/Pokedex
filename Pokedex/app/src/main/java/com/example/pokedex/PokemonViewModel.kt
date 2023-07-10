@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.network.dto.PokemonDetailResponseDto
 import com.example.pokedex.network.dto.PokemonListResponseDto
@@ -24,9 +25,16 @@ data class PokemonDetail(
     val name: String,
     val type: List<String>,
     val image: String,
-    var pokemonId: String,
+    val pokemonId: String,
     var selectedColor: Color
-)
+) {
+    val displayId get() = when (pokemonId.length) {
+        1 -> "#00$pokemonId"
+        2 -> "#0$pokemonId"
+        else -> "#$pokemonId"
+    }
+    val capitalizedName get() = name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+}
 
 class PokemonViewModel: ViewModel() {
     @Inject
@@ -79,10 +87,10 @@ class PokemonViewModel: ViewModel() {
 
 
     var viewState: ViewState by mutableStateOf(ViewState())
-        init{
-            RetrofitApplication.instance.retrofitComponent.inject(this)
-            getPokemon()
-        }
+    init{
+        RetrofitApplication.instance.retrofitComponent.inject(this)
+        getPokemon()
+    }
 
     private fun getPokemon(){
 
@@ -107,62 +115,59 @@ class PokemonViewModel: ViewModel() {
     private fun getPokemonDetails(list: List<PokemonListResponseDto.Result>){
         list.map {
             pokemonAPI.getPokemonDetails(it.name?.lowercase(Locale.ROOT) ?: "").enqueue(object : Callback<PokemonDetailResponseDto> {
-            override fun onResponse(
-                call: Call<PokemonDetailResponseDto>,
-                response: Response<PokemonDetailResponseDto>
-            ) {
-                val data = PokemonDetail(
-                    name = response.body()?.name ?: "",
-                    type = response.body()?.types?.mapNotNull { it?.type?.name } ?: listOf(),
-                    image = response.body()?.sprites?.frontDefault ?: "",
-                    pokemonId = response.body()?.id.toString(),
-                    selectedColor = Color.Black
+                override fun onResponse(
+                    call: Call<PokemonDetailResponseDto>,
+                    response: Response<PokemonDetailResponseDto>
+                ) {
+                    val data = PokemonDetail(
+                        name = response.body()?.name ?: "",
+                        type = response.body()?.types?.mapNotNull { it?.type?.name } ?: listOf(),
+                        image = response.body()?.sprites?.other?.officialArtwork?.frontDefault ?: "",
+                        pokemonId = response.body()?.id.toString(),
+                        selectedColor = Color.Black
 
-                )
+                    )
 
-                pokemon = mutableListOf<PokemonDetail>().apply {
-                    addAll(pokemon)
-                    add(data)
+                    pokemon = mutableListOf<PokemonDetail>().apply {
+                        addAll(pokemon)
+                        add(data)
+                    }
+
+                    Log.d("TYPE: ", data.type.toString())
+
+                    pokemon.forEach {pokemon ->
+                        if(pokemon.type[0] == "grass"){
+                            pokemon.selectedColor = GRASS_LIGHT
+                        }
+                        else if(pokemon.type[0] == "fire"){
+                            pokemon.selectedColor = FIRE_LIGHT
+                        }
+                        else if(pokemon.type[0] == "poison"){
+                            pokemon.selectedColor = POISON_LIGHT
+                        }
+                        else if(pokemon.type[0] == "water"){
+                            pokemon.selectedColor = WATER_LIGHT
+                        }
+                        else if(pokemon.type[0] == "electric"){
+                            pokemon.selectedColor = ELECTRIC_LIGHT
+                        }
+                        else if(pokemon.type[0] == "bug"){
+                            pokemon.selectedColor = BUG_LIGHT
+                        }
+                        else{
+                            pokemon.selectedColor = NORMAL_LIGHT
+                        }
+                    }
                 }
 
-                Log.d("TYPE: ", data.type.toString())
-
-                pokemon.forEach {pokemon ->
-                    if(pokemon.type[0] == "grass"){
-                        pokemon.selectedColor = GRASS_LIGHT
-                    }
-                    else if(pokemon.type[0] == "fire"){
-                        pokemon.selectedColor = FIRE_LIGHT
-                    }
-                    else if(pokemon.type[0] == "poison"){
-                        pokemon.selectedColor = POISON_LIGHT
-                    }
-                    else if(pokemon.type[0] == "water"){
-                        pokemon.selectedColor = WATER_LIGHT
-                    }
-                    else if(pokemon.type[0] == "electric"){
-                        pokemon.selectedColor = ELECTRIC_LIGHT
-                    }
-                    else if(pokemon.type[0] == "bug"){
-                        pokemon.selectedColor = BUG_LIGHT
-                    }
-                    else{
-                        pokemon.selectedColor = NORMAL_LIGHT
-                    }
+                override fun onFailure(call: Call<PokemonDetailResponseDto>, t: Throwable) {
+                    Log.d("ERROR", t.toString())
                 }
-            }
 
-            override fun onFailure(call: Call<PokemonDetailResponseDto>, t: Throwable) {
-                Log.d("ERROR", t.toString())
-            }
-
-        })
+            })
         }
 
 
     }
 
 }
-
-
-
