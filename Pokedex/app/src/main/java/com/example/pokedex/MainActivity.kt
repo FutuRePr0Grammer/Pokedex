@@ -112,8 +112,7 @@ class MainActivity : ComponentActivity() {
                     )
                     types.forEach { type ->
                         Text(
-                            text = type,//types.toString(),
-                            //Modifier.border(BorderStroke(2.dp, Color.LightGray)),
+                            text = type,
                             style = androidx.compose.ui.text.TextStyle(
                                 //ff means color, 100% opacity. This is white, 80% opacity (0x80)
                                 background = Color(0x80ffffff),
@@ -125,10 +124,8 @@ class MainActivity : ComponentActivity() {
                 }
                 Column {
                     Text(
-                        //TODO: add condition, if Id one number, add #00, if two, #0, etc.
                         text = id,
                         style = androidx.compose.ui.text.TextStyle(
-                            //ff means color, 100% opacity. This is white, 80% opacity (0x80)
                             fontSize = 10.sp,
                             color = Color.White
                         ),

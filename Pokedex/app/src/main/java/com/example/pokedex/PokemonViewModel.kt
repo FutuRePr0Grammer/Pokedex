@@ -90,7 +90,6 @@ class PokemonViewModel: ViewModel() {
             override fun onResponse(call: Call<PokemonListResponseDto>, response: Response<PokemonListResponseDto>) {
                 Log.d("SUCCESS", response.body()?.toString() ?: "")
                 viewState = viewState.copy(pokemonNames = response.body()?.results!!.map { it?.name ?: "" })
-                //Log.d("NAMES", viewState.pokemonNames.toString())
 
                 val pokemonList = response.body()?.results?.mapNotNull { it } ?: listOf()
                 getPokemonDetails(pokemonList)
