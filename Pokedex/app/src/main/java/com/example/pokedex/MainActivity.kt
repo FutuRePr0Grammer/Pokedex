@@ -55,6 +55,11 @@ class MainActivity : ComponentActivity() {
                 columns = GridCells.Fixed(2)
             ) {
                 viewModel.pokemon.forEach { pokemon ->
+                    when(pokemon.pokemonId.length) {
+                        1 -> pokemon.pokemonId = "#00" + pokemon.pokemonId
+                        2 -> pokemon.pokemonId = "#0" + pokemon.pokemonId
+                        3 -> pokemon.pokemonId = "#" + pokemon.pokemonId
+                    }
                     item {
                         pokemonCardComposable(
                             name = pokemon.name,

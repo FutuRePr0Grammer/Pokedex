@@ -24,7 +24,7 @@ data class PokemonDetail(
     val name: String,
     val type: List<String>,
     val image: String,
-    val pokemonId: String,
+    var pokemonId: String,
     var selectedColor: Color
 )
 
