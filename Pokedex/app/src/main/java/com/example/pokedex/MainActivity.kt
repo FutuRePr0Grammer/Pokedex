@@ -141,7 +141,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @Preview
     @Composable
-    fun pokemonCardComposablePreview() {
+    fun PokemonCardComposablePreview() {
         PokemonCard("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
     }
 }
