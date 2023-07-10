@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.ViewModel
 import com.example.pokedex.network.dto.PokemonDetailResponseDto
 import com.example.pokedex.network.dto.PokemonListResponseDto
@@ -26,7 +27,14 @@ data class PokemonDetail(
     val image: String,
     val pokemonId: String,
     var selectedColor: Color
-)
+) {
+    val displayId get() = when (pokemonId.length) {
+        1 -> "#00$pokemonId"
+        2 -> "#0$pokemonId"
+        else -> "#$pokemonId"
+    }
+    val capitalizedName get() = name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+}
 
 class PokemonViewModel: ViewModel() {
     @Inject
@@ -115,7 +123,7 @@ class PokemonViewModel: ViewModel() {
                 val data = PokemonDetail(
                     name = response.body()?.name ?: "",
                     type = response.body()?.types?.mapNotNull { it?.type?.name } ?: listOf(),
-                    image = response.body()?.sprites?.frontDefault ?: "",
+                    image = response.body()?.sprites?.other?.officialArtwork?.frontDefault ?: "",
                     pokemonId = response.body()?.id.toString(),
                     selectedColor = Color.Black
 
