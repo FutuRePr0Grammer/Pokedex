@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -121,7 +122,7 @@ class MainActivity : ComponentActivity() {
                             color = Color.White
                         ),
                         modifier = Modifier
-                            .padding(30.dp, 0.dp, 0.dp, 0.dp)
+                            .align(alignment = End)
                     )
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
