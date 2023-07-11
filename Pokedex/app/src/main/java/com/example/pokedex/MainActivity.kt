@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -138,10 +141,90 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun PokemonDetailsCard(){
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(10.dp))
+                .background(Color.Red)
+                .padding(top = 15.dp, start = 15.dp)
+        ){
+            Row(){
+                Text(
+                    text = "Pokemon Name",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    ),
+                    modifier = Modifier
+                        //.fillMaxWidth()
+                        .weight(2f)
+                )
+                Text(
+                    text = "Pokemon Id",
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    ),
+                    modifier = Modifier
+                        .padding(end = 10.dp, top = 5.dp)
+                )
+            }
+            Row(){
+                Text(
+                    text = "Type 1",
+                    style = TextStyle(
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    ),
+                    modifier = Modifier
+                        .padding(end = 5.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White.copy(alpha = 0.4F))
+                        .padding(2.dp)
+                )
+                Text(
+                    text = "Type 2",
+                    style = TextStyle(
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    ),
+                    modifier = Modifier
+                        .padding(end = 5.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White.copy(alpha = 0.4F))
+                        .padding(2.dp)
+                )
+            }
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data("Pokemon Image")
+                    .decoderFactory(SvgDecoder.Factory())
+                    .build(),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp),
+                contentScale = ContentScale.FillBounds
+            )
+
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Preview
     @Composable
     fun PokemonCardComposablePreview() {
         PokemonCard("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
+    }
+
+    @Preview
+    @Composable
+    fun PokemonDetailsCardPreview(){
+        PokemonDetailsCard()
     }
 }
