@@ -59,36 +59,37 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(10.dp)
-            ) {
-                viewModel.pokemon.forEach { pokemon ->
-                    item {
-                        PokemonCard(
-                            name = pokemon.capitalizedName,
-                            types = pokemon.type,
-                            imageUrl = pokemon.image,
-                            id = pokemon.displayId,
-                            color = pokemon.selectedColor
-                        )
-                    }
-
-                }
-            }
-
+            NavigationView()
         }
     }
 
     //TODO: add NavigationView to setContent and add PokemonCard params to NavigationView calls
+    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationView() {
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = "listScreen") {
             composable("listScreen") {
-                PokemonCard(navController)
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(10.dp)
+                ) {
+                    viewModel.pokemon.forEach { pokemon ->
+                        item {
+                            PokemonCard(
+                                navController = navController,
+                                name = pokemon.capitalizedName,
+                                types = pokemon.type,
+                                imageUrl = pokemon.image,
+                                id = pokemon.displayId,
+                                color = pokemon.selectedColor
+                            )
+                        }
+
+                    }
+                }
             }
             composable("detailsScreen") {
                 PokemonDetailsCard(navController)
@@ -167,7 +168,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(){
+    fun PokemonDetailsCard(navController: NavHostController){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -253,12 +254,12 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonCardComposablePreview() {
-        PokemonCard("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
+        //PokemonCard("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
     }
 
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard()
+        //PokemonDetailsCard()
     }
 }
