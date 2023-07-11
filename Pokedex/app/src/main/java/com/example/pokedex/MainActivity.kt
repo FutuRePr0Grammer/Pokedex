@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -145,7 +146,8 @@ class MainActivity : ComponentActivity() {
     fun PokemonDetailsCard(){
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(fraction = 1f)
+                .fillMaxHeight(fraction = 1f)
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.Red)
                 .padding(top = 15.dp, start = 15.dp)
@@ -201,16 +203,24 @@ class MainActivity : ComponentActivity() {
                         .padding(2.dp)
                 )
             }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("Pokemon Image")
-                    .decoderFactory(SvgDecoder.Factory())
-                    .build(),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(100.dp),
-                contentScale = ContentScale.FillBounds
+            Column(
+                //horizontalAlignment = Alignment.CenterHorizontally
+                verticalArrangement = Arrangement.Center
             )
+            {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("Pokemon Image")
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(200.dp),
+
+                    contentScale = ContentScale.FillBounds,
+                    alignment = Alignment.Center
+                )
+            }
 
         }
     }
