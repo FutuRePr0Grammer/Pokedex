@@ -63,7 +63,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    //TODO: add NavigationView to setContent and add PokemonCard params to NavigationView calls
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationView() {
