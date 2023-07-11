@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,6 +34,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -77,9 +82,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    //TODO: add NavigationView to setContent and add PokemonCard params to NavigationView calls
+    @Composable
+    fun NavigationView() {
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "listScreen") {
+            composable("listScreen") {
+                PokemonCard(navController)
+            }
+            composable("detailsScreen") {
+                PokemonDetailsCard(navController)
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun PokemonCard(name: String, types: List<String>, imageUrl: String, id: String, color: Color) {
+    fun PokemonCard(navController: NavHostController, name: String, types: List<String>, imageUrl: String, id: String, color: Color) {
 
         Column(
             modifier = Modifier
@@ -87,6 +106,11 @@ class MainActivity : ComponentActivity() {
                 .clip(RoundedCornerShape(10.dp))
                 .background(color)
                 .padding(10.dp)
+                .clickable(
+                    onClick = (
+                            { navController.navigate("detailsScreen") }
+                            )
+                )
         ) {
             Text(
                 text = id,
