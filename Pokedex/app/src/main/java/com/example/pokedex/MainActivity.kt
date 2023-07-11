@@ -254,12 +254,12 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonCardComposablePreview() {
-        //PokemonCard("Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
+        PokemonCard(rememberNavController(), "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
     }
 
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        //PokemonDetailsCard()
+        PokemonDetailsCard(rememberNavController())
     }
 }
