@@ -167,7 +167,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController){
+    fun PokemonDetailsCard(navController: NavHostController/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -176,6 +176,18 @@ class MainActivity : ComponentActivity() {
                 .background(Color.Red)
                 .padding(top = 15.dp, start = 15.dp)
         ){
+            Text(
+                text = "Back",
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    fontSize = 10.sp
+                ),
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .clickable(
+                        onClick = {navController.navigate("listScreen")})
+            )
             Row(){
                 Text(
                     text = "Pokemon Name",
@@ -259,6 +271,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController())
+        PokemonDetailsCard(rememberNavController()/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
     }
 }
