@@ -2,6 +2,7 @@ package com.example.pokedex
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -35,9 +36,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -63,12 +66,25 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    //TODO: implement:
+    /*composable("detail/{name}/{id}") { backStackEntry ->
+    // Extracting the arguments from the route
+    val name= backStackEntry.arguments?.getString("name")
+    val id= backStackEntry.arguments?.getString("id")
+
+    // Check if arguments are not null and render the screen
+    if (name!= null && id!= null) {
+        DetailScreen(name, id)
+    }
+}*/
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationView() {
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = "listScreen") {
-            composable("listScreen") {
+            composable(route = "listScreen") {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -90,7 +106,14 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-            composable("detailsScreen") {
+            composable(
+                route = "detailsScreen/{pokemonName}",
+                arguments = listOf(navArgument("pokemonName"){
+                    type = NavType.StringType
+                })
+            ) {
+                it.arguments?.getString("pokemonName")
+                    ?.let { it1 -> Log.d("Pokemon Name in Details Screen: ", it1) }
                 PokemonDetailsCard(navController)
             }
         }
@@ -108,7 +131,7 @@ class MainActivity : ComponentActivity() {
                 .padding(10.dp)
                 .clickable(
                     onClick = (
-                            { navController.navigate("detailsScreen") }
+                            { navController.navigate("detailsScreen/" + name) }
                             )
                 )
         ) {
