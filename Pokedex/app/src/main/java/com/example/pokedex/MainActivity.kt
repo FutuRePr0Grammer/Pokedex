@@ -107,15 +107,26 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable(
-                route = "detailsScreen/{pokemonName}",
-                arguments = listOf(navArgument("pokemonName"){
-                    type = NavType.StringType
-                })
+                route = "detailsScreen/{pokemonName}/{id}",
+                arguments = listOf(
+                    navArgument("pokemonName"){
+                        type = NavType.StringType
+                },
+                    navArgument("id"){
+                        type = NavType.StringType
+                    })
             ) {
                 it.arguments?.getString("pokemonName")
                     ?.let { it1 -> Log.d("Pokemon Name in Details Screen: ", it1) }
-                it.arguments?.getString("pokemonName")
-                    ?.let { it1 -> PokemonDetailsCard(navController, it1) }
+                /*it.arguments?.getString("pokemonName")
+                    ?.let { it1 -> PokemonDetailsCard(navController, it1) }*/
+                var name = it.arguments?.getString("pokemonName")
+                var id = it.arguments?.getString("id")
+                if (name != null) {
+                    if (id != null) {
+                        PokemonDetailsCard(navController = navController, name = name, id = id)
+                    }
+                }
             }
         }
     }
@@ -132,7 +143,7 @@ class MainActivity : ComponentActivity() {
                 .padding(10.dp)
                 .clickable(
                     onClick = (
-                            { navController.navigate("detailsScreen/" + name) }
+                            { navController.navigate("detailsScreen/" + name + "/" + id) }
                             )
                 )
         ) {
@@ -191,7 +202,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController, name: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
+    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -210,7 +221,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier
                     .padding(bottom = 10.dp)
                     .clickable(
-                        onClick = {navController.navigate("listScreen")})
+                        onClick = { navController.navigate("listScreen") })
             )
             Row(){
                 Text(
@@ -225,7 +236,7 @@ class MainActivity : ComponentActivity() {
                         .weight(2f)
                 )
                 Text(
-                    text = "Pokemon Id",
+                    text = id,
                     style = TextStyle(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
@@ -236,33 +247,22 @@ class MainActivity : ComponentActivity() {
                 )
             }
             Row(){
-                Text(
-                    text = "Type 1",
-                    style = TextStyle(
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    ),
-                    modifier = Modifier
-                        .padding(end = 5.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.White.copy(alpha = 0.4F))
-                        .padding(2.dp)
-                )
-                Text(
-                    text = "Type 2",
-                    style = TextStyle(
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    ),
-                    modifier = Modifier
-                        .padding(end = 5.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.White.copy(alpha = 0.4F))
-                        .padding(2.dp)
-                )
-            }
+                /*types.forEach {type ->
+                    Text(
+                        text = type,
+                        style = TextStyle(
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(Color.White.copy(alpha = 0.4F))
+                            .padding(2.dp)
+                    )
+                }
+            */}
             Column(
                 //horizontalAlignment = Alignment.CenterHorizontally
                 verticalArrangement = Arrangement.Center
@@ -295,6 +295,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController(), "Bulbasaur"/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3"/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
     }
 }
