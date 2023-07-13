@@ -114,7 +114,8 @@ class MainActivity : ComponentActivity() {
             ) {
                 it.arguments?.getString("pokemonName")
                     ?.let { it1 -> Log.d("Pokemon Name in Details Screen: ", it1) }
-                PokemonDetailsCard(navController)
+                it.arguments?.getString("pokemonName")
+                    ?.let { it1 -> PokemonDetailsCard(navController, it1) }
             }
         }
     }
@@ -190,7 +191,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
+    fun PokemonDetailsCard(navController: NavHostController, name: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -213,7 +214,7 @@ class MainActivity : ComponentActivity() {
             )
             Row(){
                 Text(
-                    text = "Pokemon Name",
+                    text = name,
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -294,6 +295,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController()/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur"/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
     }
 }
