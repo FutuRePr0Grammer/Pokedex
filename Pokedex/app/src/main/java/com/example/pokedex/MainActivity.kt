@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable(
-                route = "detailsScreen/{pokemonName}/{id}/{imageUrl}/{types}",
+                route = "detailsScreen/{pokemonName}/{id}/{imageUrl}/{types}/{color}",
                 arguments = listOf(
                     navArgument("pokemonName"){
                         type = NavType.StringType
@@ -111,6 +112,9 @@ class MainActivity : ComponentActivity() {
                     },
                     navArgument("types"){
                         type = NavType.StringType
+                    },
+                    navArgument("color"){
+                        type = NavType.IntType
                     }
                 )
             ) {
@@ -120,11 +124,21 @@ class MainActivity : ComponentActivity() {
                 var id = it.arguments?.getString("id")
                 var imageUrl = it.arguments?.getString("imageUrl")
                 var types = it.arguments?.getString("types")
+                var color = it.arguments?.getInt("color")
                 if (name != null) {
                     if (id != null) {
                         if (imageUrl != null) {
                             if (types != null) {
-                                PokemonDetailsCard(navController = navController, name = name, id = id, imageUrl = imageUrl, types = types)
+                                if (color != null) {
+                                    PokemonDetailsCard(
+                                        navController = navController,
+                                        name = name,
+                                        id = id,
+                                        imageUrl = imageUrl,
+                                        types = types,
+                                        color = color
+                                    )
+                                }
                             }
                         }
                     }
@@ -149,7 +163,7 @@ class MainActivity : ComponentActivity() {
                             {   imageUrlMap = mapOf("imageUrl" to imageUrl)
                                 Log.d("ImageUrl keys: ", imageUrlMap.keys.toString())
                                 typesMap = mapOf("types" to types)
-                                navController.navigate("detailsScreen/" + name + "/" + id + "/" + "imageUrl" + "/" + "types") }
+                                navController.navigate("detailsScreen/" + name + "/" + id + "/" + "imageUrl" + "/" + "types" +"/" + color.toArgb()) }
                             )
                 )
         ) {
@@ -208,13 +222,13 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String, types: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
+    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String, types: String, color: Int){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
                 .fillMaxHeight(fraction = 1f)
                 .clip(RoundedCornerShape(10.dp))
-                .background(Color.Red)
+                .background(Color(color))
                 .padding(top = 15.dp, start = 15.dp)
         ){
             Text(
@@ -305,6 +319,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3", "TEST", "Grass")
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3", "TEST", "Grass", 3)
     }
 }
