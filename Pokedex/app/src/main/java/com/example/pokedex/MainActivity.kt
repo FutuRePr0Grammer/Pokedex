@@ -57,9 +57,9 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: PokemonViewModel by viewModels()
 
-    private lateinit var imageUrlMap: Map<String, String>
+    private var imageUrlMap: Map<String, String> = mapOf()
 
-    private lateinit var typesMap: Map<String, List<String>>
+    private var typesMap: Map<String, List<String>> = mapOf()
 
 
     @RequiresApi(Build.VERSION_CODES.O)
