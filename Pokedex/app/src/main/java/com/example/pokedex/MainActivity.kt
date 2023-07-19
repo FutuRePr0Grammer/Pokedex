@@ -56,6 +56,8 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: PokemonViewModel by viewModels()
 
+    lateinit var imageUrlMap: Map<String, String>
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +68,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    //TODO: implement:
+    //TODO: implement below for types and imageUrl, using an id. Add array to map and pass key?:
     /*composable("detail/{name}/{id}") { backStackEntry ->
     // Extracting the arguments from the route
     val name= backStackEntry.arguments?.getString("name")
@@ -107,14 +109,18 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable(
-                route = "detailsScreen/{pokemonName}/{id}",
+                route = "detailsScreen/{pokemonName}/{id}/{imageUrl}",
                 arguments = listOf(
                     navArgument("pokemonName"){
                         type = NavType.StringType
-                },
+                    },
                     navArgument("id"){
                         type = NavType.StringType
-                    })
+                    },
+                    navArgument("imageUrl"){
+                        type = NavType.StringType
+                    }
+                )
             ) {
                 it.arguments?.getString("pokemonName")
                     ?.let { it1 -> Log.d("Pokemon Name in Details Screen: ", it1) }
@@ -122,9 +128,12 @@ class MainActivity : ComponentActivity() {
                     ?.let { it1 -> PokemonDetailsCard(navController, it1) }*/
                 var name = it.arguments?.getString("pokemonName")
                 var id = it.arguments?.getString("id")
+                var imageUrl = it.arguments?.getString("imageUrl")
                 if (name != null) {
                     if (id != null) {
-                        PokemonDetailsCard(navController = navController, name = name, id = id)
+                        if (imageUrl != null) {
+                            PokemonDetailsCard(navController = navController, name = name, id = id, imageUrl = imageUrl)
+                        }
                     }
                 }
             }
@@ -143,7 +152,10 @@ class MainActivity : ComponentActivity() {
                 .padding(10.dp)
                 .clickable(
                     onClick = (
-                            { navController.navigate("detailsScreen/" + name + "/" + id) }
+
+                            { imageUrlMap = mapOf("imageUrl" to imageUrl)
+                                Log.d("ImageUrl keys: ", imageUrlMap.keys.toString())
+                                navController.navigate("detailsScreen/" + name + "/" + id + "/" + "imageUrl"/*imageUrlMap.keys.toString()*/) }
                             )
                 )
         ) {
@@ -202,7 +214,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
+    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -268,9 +280,10 @@ class MainActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.Center
             )
             {
+                imageUrlMap[imageUrl]?.let { Log.d("IMAGEURL", it) }
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("Pokemon Image")
+                        .data(imageUrlMap[imageUrl])
                         .decoderFactory(SvgDecoder.Factory())
                         .build(),
                     contentDescription = null,
@@ -295,6 +308,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3"/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3", "TEST"/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
     }
 }
