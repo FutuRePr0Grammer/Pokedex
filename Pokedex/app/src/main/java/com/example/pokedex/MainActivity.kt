@@ -70,19 +70,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    //TODO: implement below for types and imageUrl, using an id. Add array to map and pass key?:
-    /*composable("detail/{name}/{id}") { backStackEntry ->
-    // Extracting the arguments from the route
-    val name= backStackEntry.arguments?.getString("name")
-    val id= backStackEntry.arguments?.getString("id")
-
-    // Check if arguments are not null and render the screen
-    if (name!= null && id!= null) {
-        DetailScreen(name, id)
-    }
-}*/
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun NavigationView() {
@@ -129,8 +116,6 @@ class MainActivity : ComponentActivity() {
             ) {
                 it.arguments?.getString("pokemonName")
                     ?.let { it1 -> Log.d("Pokemon Name in Details Screen: ", it1) }
-                /*it.arguments?.getString("pokemonName")
-                    ?.let { it1 -> PokemonDetailsCard(navController, it1) }*/
                 var name = it.arguments?.getString("pokemonName")
                 var id = it.arguments?.getString("id")
                 var imageUrl = it.arguments?.getString("imageUrl")
