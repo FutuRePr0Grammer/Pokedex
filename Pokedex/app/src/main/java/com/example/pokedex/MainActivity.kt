@@ -56,7 +56,9 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: PokemonViewModel by viewModels()
 
-    lateinit var imageUrlMap: Map<String, String>
+    private lateinit var imageUrlMap: Map<String, String>
+
+    private lateinit var typesMap: Map<String, List<String>>
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -109,7 +111,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
             composable(
-                route = "detailsScreen/{pokemonName}/{id}/{imageUrl}",
+                route = "detailsScreen/{pokemonName}/{id}/{imageUrl}/{types}",
                 arguments = listOf(
                     navArgument("pokemonName"){
                         type = NavType.StringType
@@ -118,6 +120,9 @@ class MainActivity : ComponentActivity() {
                         type = NavType.StringType
                     },
                     navArgument("imageUrl"){
+                        type = NavType.StringType
+                    },
+                    navArgument("types"){
                         type = NavType.StringType
                     }
                 )
@@ -129,10 +134,13 @@ class MainActivity : ComponentActivity() {
                 var name = it.arguments?.getString("pokemonName")
                 var id = it.arguments?.getString("id")
                 var imageUrl = it.arguments?.getString("imageUrl")
+                var types = it.arguments?.getString("types")
                 if (name != null) {
                     if (id != null) {
                         if (imageUrl != null) {
-                            PokemonDetailsCard(navController = navController, name = name, id = id, imageUrl = imageUrl)
+                            if (types != null) {
+                                PokemonDetailsCard(navController = navController, name = name, id = id, imageUrl = imageUrl, types = types)
+                            }
                         }
                     }
                 }
@@ -153,9 +161,10 @@ class MainActivity : ComponentActivity() {
                 .clickable(
                     onClick = (
 
-                            { imageUrlMap = mapOf("imageUrl" to imageUrl)
+                            {   imageUrlMap = mapOf("imageUrl" to imageUrl)
                                 Log.d("ImageUrl keys: ", imageUrlMap.keys.toString())
-                                navController.navigate("detailsScreen/" + name + "/" + id + "/" + "imageUrl"/*imageUrlMap.keys.toString()*/) }
+                                typesMap = mapOf("types" to types)
+                                navController.navigate("detailsScreen/" + name + "/" + id + "/" + "imageUrl" + "/" + "types") }
                             )
                 )
         ) {
@@ -214,7 +223,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
+    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String, types: String/*, name: String, types: List<String>, imageUrl: String, id: String, color: Color*/){
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -259,22 +268,25 @@ class MainActivity : ComponentActivity() {
                 )
             }
             Row(){
-                /*types.forEach {type ->
-                    Text(
-                        text = type,
-                        style = TextStyle(
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        ),
-                        modifier = Modifier
-                            .padding(end = 5.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color.White.copy(alpha = 0.4F))
-                            .padding(2.dp)
-                    )
+                var typesList = typesMap.get(types)
+                if (typesList != null) {
+                    typesList.forEach {type ->
+                        Text(
+                            text = type,
+                            style = TextStyle(
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            ),
+                            modifier = Modifier
+                                .padding(end = 5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color.White.copy(alpha = 0.4F))
+                                .padding(2.dp)
+                        )
+                    }
                 }
-            */}
+            }
             Column(
                 //horizontalAlignment = Alignment.CenterHorizontally
                 verticalArrangement = Arrangement.Center
@@ -308,6 +320,6 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3", "TEST"/*, "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041)*/)
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3", "TEST", "Grass")
     }
 }
