@@ -223,6 +223,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String, types: String, color: Int){
+        Log.d("Color in RGB: ", color.toString())
         Column(
             modifier = Modifier
                 .fillMaxWidth(fraction = 1f)
@@ -319,6 +320,8 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "3", "TEST", "Grass", 3)
+        var types = listOf("grass", "water")
+        typesMap = mapOf("TEST" to types)
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "#003", "TEST", "TEST", -10297179)
     }
 }
