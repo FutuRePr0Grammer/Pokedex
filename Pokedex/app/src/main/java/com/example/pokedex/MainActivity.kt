@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -287,9 +288,11 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-            Column(
+            Row(
                 //horizontalAlignment = Alignment.CenterHorizontally
-                verticalArrangement = Arrangement.Center
+                //verticalArrangement = Arrangement.Center
+                modifier = Modifier
+                    .align(CenterHorizontally)
             )
             {
                 imageUrlMap[imageUrl]?.let { Log.d("IMAGEURL", it) }
