@@ -248,7 +248,7 @@ class MainActivity : ComponentActivity() {
                 Text(
                     text = name,
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     ),
@@ -259,12 +259,12 @@ class MainActivity : ComponentActivity() {
                 Text(
                     text = id,
                     style = TextStyle(
-                        fontSize = 12.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     ),
                     modifier = Modifier
-                        .padding(end = 10.dp, top = 5.dp)
+                        .padding(end = 23.dp, top = 15.dp)
                 )
             }
             Row(){
@@ -274,7 +274,7 @@ class MainActivity : ComponentActivity() {
                         Text(
                             text = type,
                             style = TextStyle(
-                                fontSize = 10.sp,
+                                fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
