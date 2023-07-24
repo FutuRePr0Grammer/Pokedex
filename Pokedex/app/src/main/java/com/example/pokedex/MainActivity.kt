@@ -149,7 +149,8 @@ class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
-    fun PokemonCard(navController: NavHostController, name: String, types: List<String>, imageUrl: String, id: String, color: Color) {
+    fun PokemonCard(navController: NavHostController, name: String, types: List<String>,
+                    imageUrl: String, id: String, color: Color) {
 
         Column(
             modifier = Modifier
@@ -163,7 +164,8 @@ class MainActivity : ComponentActivity() {
                             {   imageUrlMap = mapOf("imageUrl" to imageUrl)
                                 Log.d("ImageUrl keys: ", imageUrlMap.keys.toString())
                                 typesMap = mapOf("types" to types)
-                                navController.navigate("detailsScreen/" + name + "/" + id + "/" + "imageUrl" + "/" + "types" +"/" + color.toArgb()) }
+                                navController.navigate("detailsScreen/" + name + "/" + id +
+                                        "/" + "imageUrl" + "/" + "types" +"/" + color.toArgb()) }
                             )
                 )
         ) {
@@ -222,7 +224,8 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String, imageUrl: String, types: String, color: Int){
+    fun PokemonDetailsCard(navController: NavHostController, name: String, id: String,
+                           imageUrl: String, types: String, color: Int){
         Log.d("Color in RGB: ", color.toString())
         Column(
             modifier = Modifier
@@ -311,7 +314,8 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonCardComposablePreview() {
-        PokemonCard(rememberNavController(), "Bulbasaur", listOf("grass", "fire"), "TEST", "#003", Color(0xff67f041))
+        PokemonCard(rememberNavController(), "Bulbasaur", listOf("grass", "fire"),
+            "TEST", "#003", Color(0xff67f041))
     }
 
     @Preview
@@ -319,6 +323,7 @@ class MainActivity : ComponentActivity() {
     fun PokemonDetailsCardPreview(){
         val types = listOf("grass", "water")
         typesMap = mapOf("TEST" to types)
-        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "#003", "TEST", "TEST", -10297179)
+        PokemonDetailsCard(rememberNavController(), "Bulbasaur", "#003",
+            "TEST", "TEST", -10297179)
     }
 }
