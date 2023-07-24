@@ -283,7 +283,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(end = 5.dp)
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(Color.White.copy(alpha = 0.4F))
-                                .padding(2.dp)
+                                .padding(8.dp, 3.dp)
                         )
                     }
                 }
