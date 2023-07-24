@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -121,11 +120,11 @@ class MainActivity : ComponentActivity() {
             ) {
                 it.arguments?.getString("pokemonName")
                     ?.let { it1 -> Log.d("Pokemon Name in Details Screen: ", it1) }
-                var name = it.arguments?.getString("pokemonName")
-                var id = it.arguments?.getString("id")
-                var imageUrl = it.arguments?.getString("imageUrl")
-                var types = it.arguments?.getString("types")
-                var color = it.arguments?.getInt("color")
+                val name = it.arguments?.getString("pokemonName")
+                val id = it.arguments?.getString("id")
+                val imageUrl = it.arguments?.getString("imageUrl")
+                val types = it.arguments?.getString("types")
+                val color = it.arguments?.getInt("color")
                 if (name != null) {
                     if (id != null) {
                         if (imageUrl != null) {
@@ -194,7 +193,7 @@ class MainActivity : ComponentActivity() {
                         types.forEach { type ->
                             Text(
                                 text = type,
-                                style = androidx.compose.ui.text.TextStyle(
+                                style = TextStyle(
                                     fontSize = 10.sp,
                                     color = Color.White,
                                 ),
@@ -245,7 +244,7 @@ class MainActivity : ComponentActivity() {
                     .clickable(
                         onClick = { navController.navigate("listScreen") })
             )
-            Row(){
+            Row {
                 Text(
                     text = name,
                     style = TextStyle(
@@ -268,29 +267,25 @@ class MainActivity : ComponentActivity() {
                         .padding(end = 23.dp, top = 15.dp)
                 )
             }
-            Row(){
-                var typesList = typesMap.get(types)
-                if (typesList != null) {
-                    typesList.forEach {type ->
-                        Text(
-                            text = type,
-                            style = TextStyle(
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier
-                                .padding(end = 5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color.White.copy(alpha = 0.4F))
-                                .padding(8.dp, 3.dp)
-                        )
-                    }
+            Row {
+                val typesList = typesMap[types]
+                typesList?.forEach { type ->
+                    Text(
+                        text = type,
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(Color.White.copy(alpha = 0.4F))
+                            .padding(8.dp, 3.dp)
+                    )
                 }
             }
             Row(
-                //horizontalAlignment = Alignment.CenterHorizontally
-                //verticalArrangement = Arrangement.Center
                 modifier = Modifier
                     .align(CenterHorizontally)
             )
@@ -323,7 +318,7 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     fun PokemonDetailsCardPreview(){
-        var types = listOf("grass", "water")
+        val types = listOf("grass", "water")
         typesMap = mapOf("TEST" to types)
         PokemonDetailsCard(rememberNavController(), "Bulbasaur", "#003", "TEST", "TEST", -10297179)
     }
