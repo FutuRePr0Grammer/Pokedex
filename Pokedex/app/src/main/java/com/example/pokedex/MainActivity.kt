@@ -253,7 +253,6 @@ class MainActivity : ComponentActivity() {
                         color = Color.White
                     ),
                     modifier = Modifier
-                        //.fillMaxWidth()
                         .weight(2f)
                 )
                 Text(
